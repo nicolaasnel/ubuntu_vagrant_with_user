@@ -4,6 +4,7 @@ Standard Vagrant Ubuntu setup with an ansible provisioner to create a user with 
 This is intended to be run on Mac. It may need some tweaking in the user role to run on other operating systems.
 
 Requirements
+* VirtualBox `brew cask install virtualbox`
 * Ansible `brew install ansible`
 * Vagrant `brew cask install vagrant`
 

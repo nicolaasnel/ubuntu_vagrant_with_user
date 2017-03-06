@@ -1,0 +1,33 @@
+- name: Make sure we have a 'wheel' group
+  group:
+    name: wheel
+    state: present
+
+- name: Allow 'wheel' group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+
+- name: get the username running the deploy
+  local_action: command whoami
+  register: username
+  sudo: false
+
+- name: Add sudoers users to wheel group
+  user:
+    name:       "{{ username.stdout }}" 
+    groups:     wheel
+    append:     yes
+    createhome: yes
+    password:   "{{ password | password_hash('sha512') }}"
+    shell:      /bin/bash
+    system:     yes
+
+- name: Set up authorized keys for the deployer user
+  authorized_key:
+    user: "{{ username.stdout }}" 
+    key: "{{item}}"
+  with_file:
+    - /Users/{{ username.stdout }}/.ssh/id_rsa.pub

@@ -1,0 +1,9 @@
+---
+- hosts: "{{ host | default('development') }}"
+  gather_facts: false
+
+  roles:
+    -
+      role: create_user
+      sudo: yes
+      password: pass1234

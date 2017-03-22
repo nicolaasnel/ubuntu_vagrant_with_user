@@ -5,5 +5,5 @@
   roles:
     -
       role: create_user
-      sudo: yes
+      become: yes
       password: pass1234

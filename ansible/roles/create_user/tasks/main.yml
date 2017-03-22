@@ -13,11 +13,11 @@
 - name: get the username running the deploy
   local_action: command whoami
   register: username
-  sudo: false
+  become: false
 
 - name: Add sudoers users to wheel group
   user:
-    name:       "{{ username.stdout }}" 
+    name:       "{{ username.stdout }}"
     groups:     wheel
     append:     yes
     createhome: yes
@@ -27,7 +27,7 @@
 
 - name: Set up authorized keys for the deployer user
   authorized_key:
-    user: "{{ username.stdout }}" 
+    user: "{{ username.stdout }}"
     key: "{{item}}"
   with_file:
     - /Users/{{ username.stdout }}/.ssh/id_rsa.pub

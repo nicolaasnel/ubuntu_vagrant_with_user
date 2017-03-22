@@ -1,0 +1,8 @@
+---
+- hosts: "{{ host | default('development') }}"
+  gather_facts: false
+
+  roles:
+    -
+      role: angstwad.docker_ubuntu
+      ssh_port: 2222
